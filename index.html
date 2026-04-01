@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Interactive English learning app for kids - Learn body parts and appearance vocabulary">
+    <meta name="keywords" content="English learning, kids education, body parts, vocabulary">
+    <meta name="author" content="The Face Learning App">
+    <title>English Adventure - Learning App for Kids</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌟 English Adventure 🎮</h1>
+            <p>Learn English with Fun Games!</p>
+        </div>
+
+        <div class="score-board">
+            <div style="display: flex; justify-content: center; align-items: center; gap: 40px; flex-wrap: wrap;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span style="font-size: 1.8em;">🌟</span>
+                    <span>Points: <span id="score">0</span></span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span style="font-size: 1.8em;">✅</span>
+                    <span>Correct: <span id="correct-count">0</span></span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span style="font-size: 1.8em;">❌</span>
+                    <span>Wrong: <span id="wrong-count">0</span></span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span style="font-size: 1.8em;">📊</span>
+                    <span>Accuracy: <span id="accuracy">0%</span></span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span style="font-size: 1.8em;">🏅</span>
+                    <span>Best: <span id="high-score">0</span></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showGame('match')">🎯 Match</button>
+            <button class="tab" onclick="showGame('quiz')">❓ Quiz</button>
+            <button class="tab" onclick="showGame('unscramble')">🔤 Unscramble</button>
+            <button class="tab" onclick="showGame('complete')">✍️ Complete</button>
+        </div>
+
+        <div class="game-container">
+            <!-- Match Game -->
+            <div id="match-game" class="game-section active">
+                <div class="instructions">
+                    <h3><span class="emoji-icon">📚</span>Match the words!</h3>
+                    <p>Click a body part emoji, then click the correct English word. Match all pairs!</p>
+                </div>
+                <div style="text-align: center; margin: 15px 0;">
+                    <span id="match-progress" style="font-size: 1.3em; font-weight: bold; color: #667eea;">Matched: 0/20</span>
+                    <button class="btn" onclick="resetMatchGame()" style="margin-left: 20px; font-size: 1em; padding: 10px 25px;">
+                        🔄 Reset
+                    </button>
+                </div>
+                <div class="match-grid" id="match-grid"></div>
+            </div>
+
+            <!-- Quiz Game -->
+            <div id="quiz-game" class="game-section">
+                <div class="instructions">
+                    <h3><span class="emoji-icon">🤔</span>Who is who?</h3>
+                    <p>Read the description and choose the correct character!</p>
+                </div>
+                <div id="quiz-container"></div>
+            </div>
+
+            <!-- Unscramble Game -->
+            <div id="unscramble-game" class="game-section">
+                <div class="instructions">
+                    <h3><span class="emoji-icon">🧩</span>Unscramble the words!</h3>
+                    <p>Rearrange the letters to spell the correct body part!</p>
+                </div>
+                <div class="unscramble-grid" id="unscramble-grid"></div>
+            </div>
+
+            <!-- Complete the Sentence Game -->
+            <div id="complete-game" class="game-section">
+                <div class="instructions">
+                    <h3><span class="emoji-icon">✍️</span>Complete the sentences!</h3>
+                    <p>Fill in the blanks with the correct words from the word bank!</p>
+                </div>
+                <div id="complete-container"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="feedback" id="feedback">
+        <div class="feedback-emoji" id="feedback-emoji"></div>
+        <div class="feedback-text" id="feedback-text"></div>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
