@@ -171,6 +171,7 @@ function showQuestion() {
         <div class="progress-label">Question ${currentQuestion + 1} / ${questions.length}</div>
         <div class="quiz-question">
             ${q.emoji} "${q.question}"
+            ${q.pt ? `<div class="quiz-question-pt">${q.pt}</div>` : ''}
         </div>
         <div style="text-align: center; margin: 15px 0;">
             <button class="btn" onclick="showHint()" style="background: linear-gradient(135deg, #FFA500 0%, #FF8C00 100%); font-size: 1em; padding: 10px 25px;">
@@ -336,6 +337,7 @@ function showSentence() {
                 <span style="font-size: 3em;">${exercise.emoji}</span>
             </div>
             <div class="complete-sentence">${sentenceHTML}</div>
+            ${exercise.pt ? `<div class="complete-sentence-pt">${exercise.pt.replace(/_+/g, '[____]')}</div>` : ''}
 
             <div style="text-align: center; margin: 15px 0;">
                 <button class="btn" onclick="showCompletionHint()" style="background: linear-gradient(135deg, #FFA500 0%, #FF8C00 100%); font-size: 1em; padding: 10px 25px;">
