@@ -127,9 +127,9 @@ const gameData = {
             { question: "Where can you relax, play and enjoy nature?", pt: "Onde podes relaxar, brincar e desfrutar da natureza?", options: ['garage', 'park', 'hospital', 'shopping centre'], correct: 1, emoji: '🌳', hint: 'There are trees and grass here' },
             { question: "Where does the mayor of the city work?", pt: "Onde trabalha o presidente da câmara?", options: ['fire station', 'post office', 'town hall', 'church'], correct: 2, emoji: '🏛️', hint: 'An important building in the centre of town' },
             { question: "Where can you drink a hot chocolate or eat a snack?", pt: "Onde podes tomar um chocolate quente ou comer um lanche?", options: ['cafe', 'supermarket', 'post office', 'hospital'], correct: 0, emoji: '☕', hint: 'You sit at a table and a waiter brings your food' },
-            { question: "The police station is ___ the shopping centre.", pt: "A esquadra está ___ o centro comercial.", options: ['next to', 'opposite', 'between', 'behind'], correct: 0, emoji: '🗺️', hint: 'They are side by side' },
-            { question: "The school is ___ the train station.", pt: "A escola está ___ a estação de comboio.", options: ['next to', 'opposite', 'between', 'behind'], correct: 1, emoji: '🗺️', hint: 'They face each other from across the road' },
-            { question: "The cafe is ___ the post office and the supermarket.", pt: "O café está ___ os correios e o supermercado.", options: ['next to', 'opposite', 'between', 'behind'], correct: 2, emoji: '🗺️', hint: 'It is in the middle of two places' }
+            { question: "The police station is ___ the shopping centre.", pt: "A esquadra está ___ o centro comercial.", img: 'townMap', options: ['next to', 'opposite', 'between', 'behind'], correct: 0, emoji: '🗺️', hint: 'They are side by side' },
+            { question: "The school is ___ the train station.", pt: "A escola está ___ a estação de comboio.", img: 'townMap', options: ['next to', 'opposite', 'between', 'behind'], correct: 1, emoji: '🗺️', hint: 'They face each other from across the road' },
+            { question: "The cafe is ___ the post office and the supermarket.", pt: "O café está ___ os correios e o supermercado.", img: 'townMap', options: ['next to', 'opposite', 'between', 'behind'], correct: 2, emoji: '🗺️', hint: 'It is in the middle of two places' }
         ],
         unscrambleWords: [
             { scrambled: 'rpka', answer: 'park', emoji: '🌳', hint: 'A place to play and relax outside' },
@@ -202,13 +202,13 @@ const gameData = {
             { question: "Where does the family watch TV and relax?", pt: "Onde a família vê televisão e relaxa?", options: ["hall", "garage", "living room", "bedroom"], correct: 2, emoji: "🛋️", hint: "There is a sofa and a TV here" },
             { question: "Where do flowers and plants grow outside the house?", pt: "Onde crescem flores e plantas fora de casa?", options: ["garden", "kitchen", "hall", "garage"], correct: 0, emoji: "🌸", hint: "You can also play football here" },
             { question: "You enter the house through the front door. Where are you?", pt: "Entras em casa pela porta da frente. Onde estás?", options: ["bedroom", "bathroom", "hall", "kitchen"], correct: 2, emoji: "🚪", hint: "It connects all the rooms" },
-            { question: "The mobile phone is ___ the schoolbag.", pt: "O telemóvel está ___ a mochila.", options: ["in", "on", "under", "behind"], correct: 0, emoji: "📱", hint: "It is inside the bag" },
-            { question: "The glasses are ___ the chair.", pt: "Os óculos estão ___ a cadeira.", options: ["in", "on", "under", "in front of"], correct: 1, emoji: "👓", hint: "They are on top of the chair" },
-            { question: "The videogame is ___ the chair.", pt: "O videojogo está ___ a cadeira.", options: ["on", "in", "behind", "under"], correct: 3, emoji: "🎮", hint: "It is below the chair" },
-            { question: "The guitar is ___ the bike.", pt: "A guitarra está ___ a bicicleta.", options: ["next to", "in front of", "behind", "on"], correct: 2, emoji: "🎸", hint: "The bike is at the front" },
-            { question: "The watch is ___ the laptop.", pt: "O relógio está ___ o computador.", options: ["behind", "on", "in front of", "under"], correct: 2, emoji: "⌚", hint: "It is at the front of the laptop" },
-            { question: "The laptop is ___ the desk.", pt: "O computador está ___ a secretária.", options: ["under", "behind", "on", "in"], correct: 2, emoji: "💻", hint: "It is em cima da secretária" },
-            { question: "The trading cards are ___ the chair.", pt: "Os cromos estão ___ a cadeira.", options: ["on", "in", "behind", "under"], correct: 3, emoji: "🃏", hint: "They are below the chair" }
+            { question: "The mobile phone is ___ the schoolbag.", pt: "O telemóvel está ___ a mochila.", img: 'houseObjects', options: ["in", "on", "under", "behind"], correct: 0, emoji: "📱", hint: "It is inside the bag" },
+            { question: "The glasses are ___ the chair.", pt: "Os óculos estão ___ a cadeira.", img: 'houseObjects', options: ["in", "on", "under", "in front of"], correct: 1, emoji: "👓", hint: "They are on top of the chair" },
+            { question: "The videogame is ___ the chair.", pt: "O videojogo está ___ a cadeira.", img: 'houseObjects', options: ["on", "in", "behind", "under"], correct: 3, emoji: "🎮", hint: "It is below the chair" },
+            { question: "The guitar is ___ the bike.", pt: "A guitarra está ___ a bicicleta.", img: 'houseObjects', options: ["next to", "in front of", "behind", "on"], correct: 2, emoji: "🎸", hint: "The bike is at the front" },
+            { question: "The watch is ___ the laptop.", pt: "O relógio está ___ o computador.", img: 'houseObjects', options: ["behind", "on", "in front of", "under"], correct: 2, emoji: "⌚", hint: "It is at the front of the laptop" },
+            { question: "The laptop is ___ the desk.", pt: "O computador está ___ a secretária.", img: 'houseObjects', options: ["under", "behind", "on", "in"], correct: 2, emoji: "💻", hint: "It is on top of the desk" },
+            { question: "The trading cards are ___ the chair.", pt: "Os cromos estão ___ a cadeira.", img: 'houseObjects', options: ["on", "in", "behind", "under"], correct: 3, emoji: "🃏", hint: "They are below the chair" }
         ],
         unscrambleWords: [
             { scrambled: 'dbroome', answer: 'bedroom', emoji: '🛏️', hint: 'You sleep here' },
@@ -281,12 +281,12 @@ const gameData = {
             { question: "It is very tall with a long neck and orange and yellow spots.", pt: "É muito alto com um pescoço comprido e manchas laranja e amarelas.", options: ["elephant", "giraffe", "crocodile", "hippo"], correct: 1, emoji: "🦒", hint: "The tallest animal in the world" },
             { question: "It is very big and grey. It has a long nose called a trunk.", pt: "É muito grande e cinzento. Tem um nariz comprido chamado tromba.", options: ["hippo", "elephant", "crocodile", "bear"], correct: 1, emoji: "🐘", hint: "The biggest land animal" },
             { question: "It is the king of the jungle. It is big and has a brown mane.", pt: "É o rei da selva. É grande e tem uma juba castanha.", options: ["tiger", "lion", "leopard", "bear"], correct: 1, emoji: "🦁", hint: "It has a very loud roar" },
-            { question: "This animal can fly very high. It has big wings and sharp claws.", pt: "Este animal pode voar muito alto. Tem asas grandes e garras afiadas.", options: ["penguin", "eagle", "duck", "chicken"], correct: 1, emoji: "🦅", hint: "A big bird of prey" },
+            { question: "This animal can fly very high. It has big wings and sharp claws.", pt: "Este animal pode voar muito alto. Tem asas grandes e garras afiadas.", img: 'animalFly', options: ["penguin", "eagle", "duck", "chicken"], correct: 1, emoji: "🦅", hint: "A big bird of prey" },
             { question: "This bird cannot fly. It lives in cold places and looks like it wears a tuxedo!", pt: "Este pássaro não consegue voar. Vive em lugares frios e parece usar um smoking!", options: ["duck", "eagle", "penguin", "turkey"], correct: 2, emoji: "🐧", hint: "A black and white bird from Antarctica" },
             { question: "It lives in Australia and eats eucalyptus leaves.", pt: "Vive na Austrália e come folhas de eucalipto.", options: ["koala", "monkey", "elephant", "bear"], correct: 0, emoji: "🐨", hint: "A fluffy grey animal that sleeps a lot" },
             { question: "It can swim very fast and is very intelligent. It lives in the ocean.", pt: "Nada muito rápido e é muito inteligente. Vive no oceano.", options: ["crocodile", "penguin", "dolphin", "hippo"], correct: 2, emoji: "🐬", hint: "A very clever ocean animal" },
             { question: "It has no legs and it slithers on the ground.", pt: "Não tem pernas e rasteja no chão.", options: ["crocodile", "snake", "lizard", "monkey"], correct: 1, emoji: "🐍", hint: "Some of them are very long" },
-            { question: "Which of these animals CAN swim?", pt: "Qual destes animais CONSEGUE nadar?", options: ["eagle", "lion", "sheep", "dolphin"], correct: 3, emoji: "🌊", hint: "It lives in the sea!" },
+            { question: "Which of these animals CAN swim?", pt: "Qual destes animais CONSEGUE nadar?", img: 'animalSwim', options: ["eagle", "lion", "sheep", "dolphin"], correct: 3, emoji: "🌊", hint: "It lives in the sea!" },
             { question: "Which farm animal gives us eggs?", pt: "Qual animal da quinta nos dá ovos?", options: ["pig", "sheep", "cow", "chicken"], correct: 3, emoji: "🥚", hint: "It says cluck cluck" }
         ],
         unscrambleWords: [

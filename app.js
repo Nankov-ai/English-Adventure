@@ -173,6 +173,7 @@ function showQuestion() {
             ${q.emoji} "${q.question}"
             ${q.pt ? `<div class="quiz-question-pt">${q.pt}</div>` : ''}
         </div>
+        ${q.img && quizImages && quizImages[q.img] ? `<div class="quiz-image">${quizImages[q.img]}</div>` : ''}
         <div style="text-align: center; margin: 15px 0;">
             <button class="btn" onclick="showHint()" style="background: linear-gradient(135deg, #FFA500 0%, #FF8C00 100%); font-size: 1em; padding: 10px 25px;">
                 💡 Need a hint?

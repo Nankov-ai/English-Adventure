@@ -114,6 +114,13 @@ body {
     padding: 18px 10px !important;
 }
 
+/* Quiz visual image container */
+.quiz-image {
+    margin: 0 auto 10px;
+    max-width: 500px;
+    overflow-x: auto;
+}
+
 /* Bilingual instructions */
 .instr-pt {
     font-size: 0.78em;
