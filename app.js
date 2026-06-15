@@ -4,6 +4,7 @@ let selectedCard = null;
 let correctAnswers = 0;
 let wrongAnswers = 0;
 let highScore = parseInt(localStorage.getItem('ea_highScore') || '0');
+let currentTopic = 'body';
 
 // Match Game State
 let currentQuestion = 0;
@@ -13,6 +14,31 @@ let currentSentence = 0;
 let selectedWord = null;
 let currentBlanks = {};
 
+// Helper: get active topic data
+function td() { return gameData[currentTopic]; }
+
+// ===========================================
+// TOPIC SELECTOR
+// ===========================================
+
+function selectTopic(topic, btn) {
+    currentTopic = topic;
+
+    // Update topic button styles
+    document.querySelectorAll('.topic-btn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+
+    // Restart the currently active game with new data
+    const activeGame = document.querySelector('.game-section.active');
+    if (activeGame) {
+        const id = activeGame.id; // e.g. "match-game"
+        if (id === 'match-game')      initMatchGame();
+        if (id === 'quiz-game')       initQuizGame();
+        if (id === 'unscramble-game') initUnscrambleGame();
+        if (id === 'complete-game')   initCompleteGame();
+    }
+}
+
 // ===========================================
 // MATCH GAME
 // ===========================================
@@ -20,15 +46,13 @@ let currentBlanks = {};
 function initMatchGame() {
     const grid = document.getElementById('match-grid');
     grid.innerHTML = '';
-    
-    const emojis = Object.entries(faceWords);
-    const words = emojis.map(([word]) => word);
-    
-    // Shuffle arrays
+
+    const emojis = Object.entries(td().matchWords);
+    const words  = emojis.map(([word]) => word);
+
     const shuffledEmojis = [...emojis].sort(() => Math.random() - 0.5);
-    const shuffledWords = [...words].sort(() => Math.random() - 0.5);
-    
-    // Create emoji cards
+    const shuffledWords  = [...words].sort(() => Math.random() - 0.5);
+
     shuffledEmojis.forEach(([word, emoji]) => {
         const card = document.createElement('div');
         card.className = 'match-card';
@@ -38,23 +62,22 @@ function initMatchGame() {
         card.onclick = () => selectCard(card);
         grid.appendChild(card);
     });
-    
-    // Create word cards
+
     shuffledWords.forEach(word => {
         const card = document.createElement('div');
-        card.className = 'match-card';
+        card.className = 'match-card match-word-card';
         card.innerHTML = word.toUpperCase();
         card.dataset.type = 'word';
         card.dataset.word = word;
         card.onclick = () => selectCard(card);
         grid.appendChild(card);
     });
-    
+
     updateMatchProgress();
 }
 
 function updateMatchProgress() {
-    const total = Object.keys(faceWords).length;
+    const total   = Object.keys(td().matchWords).length;
     const matched = document.querySelectorAll('.match-card.correct').length / 2;
     document.getElementById('match-progress').textContent = `Matched: ${matched}/${total}`;
 }
@@ -66,7 +89,7 @@ function resetMatchGame() {
 
 function selectCard(card) {
     if (card.classList.contains('correct')) return;
-    
+
     if (!selectedCard) {
         selectedCard = card;
         card.classList.add('selected');
@@ -76,30 +99,26 @@ function selectCard(card) {
             selectedCard = null;
             return;
         }
-        
-        // Check if match
-        if (selectedCard.dataset.word === card.dataset.word && 
+
+        if (selectedCard.dataset.word === card.dataset.word &&
             selectedCard.dataset.type !== card.dataset.type) {
-            // Correct match!
             selectedCard.classList.add('correct');
             card.classList.add('correct');
             selectedCard.classList.remove('selected');
             addScore(10);
             showFeedback('🎉', 'Perfect Match!', true);
             selectedCard = null;
-            
+
             updateMatchProgress();
-            
-            // Check if all matched
+
             setTimeout(() => {
-                const allCards = document.querySelectorAll('.match-card');
+                const allCards     = document.querySelectorAll('.match-card');
                 const correctCards = document.querySelectorAll('.match-card.correct');
                 if (allCards.length === correctCards.length) {
                     showFeedback('🏆', 'Amazing! All Matched!', true);
                 }
             }, 500);
         } else {
-            // Wrong match
             addWrongAnswer();
             showFeedback('😅', 'Try Again!', false);
             selectedCard.classList.remove('selected');
@@ -114,18 +133,20 @@ function selectCard(card) {
 
 function initQuizGame() {
     currentQuestion = 0;
-    quizQuestions.sort(() => Math.random() - 0.5);
+    td().quizQuestions.sort(() => Math.random() - 0.5);
     showQuestion();
 }
 
 function showQuestion() {
     const container = document.getElementById('quiz-container');
-    if (currentQuestion >= quizQuestions.length) {
+    const questions = td().quizQuestions;
+
+    if (currentQuestion >= questions.length) {
         container.innerHTML = `
             <div style="text-align: center; padding: 50px;">
                 <div style="font-size: 5em;">🏆</div>
                 <h2>Quiz Complete!</h2>
-                <p style="font-size: 1.3em; margin: 20px 0;">You answered all ${quizQuestions.length} questions!</p>
+                <p style="font-size: 1.3em; margin: 20px 0;">You answered all ${questions.length} questions!</p>
                 <p style="font-size: 1.5em; font-weight: bold; color: #667eea; margin-bottom: 25px;">🌟 Score: ${score} points</p>
                 <button class="btn" onclick="initQuizGame()">🔄 Play Again</button>
             </div>
@@ -133,13 +154,13 @@ function showQuestion() {
         return;
     }
 
-    const pct = Math.round((currentQuestion / quizQuestions.length) * 100);
-    const q = quizQuestions[currentQuestion];
+    const pct = Math.round((currentQuestion / questions.length) * 100);
+    const q   = questions[currentQuestion];
     container.innerHTML = `
         <div class="progress-bar-container">
             <div class="progress-bar-fill" style="width: ${pct}%"></div>
         </div>
-        <div class="progress-label">Question ${currentQuestion + 1} / ${quizQuestions.length}</div>
+        <div class="progress-label">Question ${currentQuestion + 1} / ${questions.length}</div>
         <div class="quiz-question">
             ${q.emoji} "${q.question}"
         </div>
@@ -153,7 +174,7 @@ function showQuestion() {
         </div>
         <div class="quiz-options" id="quiz-options"></div>
     `;
-    
+
     const optionsContainer = document.getElementById('quiz-options');
     q.options.forEach((option, index) => {
         const btn = document.createElement('div');
@@ -165,31 +186,24 @@ function showQuestion() {
 }
 
 function showHint() {
-    const hintBox = document.getElementById('hint-box');
-    hintBox.style.display = 'block';
+    document.getElementById('hint-box').style.display = 'block';
 }
 
 function checkAnswer(selected, correct) {
     const options = document.querySelectorAll('.quiz-option');
     options.forEach(opt => opt.style.pointerEvents = 'none');
-    
+
     if (selected === correct) {
         options[selected].classList.add('correct');
         addScore(15);
         showFeedback('🌟', 'Correct!', true);
-        setTimeout(() => {
-            currentQuestion++;
-            showQuestion();
-        }, 1500);
+        setTimeout(() => { currentQuestion++; showQuestion(); }, 1500);
     } else {
         options[selected].classList.add('wrong');
         options[correct].classList.add('correct');
         addWrongAnswer();
         showFeedback('😊', 'Nice Try!', false);
-        setTimeout(() => {
-            currentQuestion++;
-            showQuestion();
-        }, 2000);
+        setTimeout(() => { currentQuestion++; showQuestion(); }, 2000);
     }
 }
 
@@ -201,22 +215,19 @@ function initUnscrambleGame() {
     const grid = document.getElementById('unscramble-grid');
     grid.innerHTML = '';
 
-    unscrambleWords.sort(() => Math.random() - 0.5);
+    const words = [...td().unscrambleWords].sort(() => Math.random() - 0.5);
 
-    unscrambleWords.forEach((item, index) => {
+    words.forEach((item, index) => {
         const div = document.createElement('div');
         div.className = 'unscramble-item';
         div.innerHTML = `
             <div style="font-size: 3em; margin-bottom: 10px;">${item.emoji}</div>
             <div class="scrambled-word">${item.scrambled.toUpperCase()}</div>
-            <input type="text" class="unscramble-input" id="unscramble-${index}" 
-                   placeholder="Type the answer..." 
-                   autocomplete="off" 
-                   autocorrect="off" 
-                   autocapitalize="off"
-                   spellcheck="false"
+            <input type="text" class="unscramble-input" id="unscramble-${index}"
+                   placeholder="Type the answer..."
+                   autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
                    onkeyup="checkUnscramble(${index}, '${item.answer}')">
-            <button class="btn" onclick="showUnscrambleHint(${index}, '${item.hint}')" 
+            <button class="btn" onclick="showUnscrambleHint(${index}, '${item.hint}')"
                     style="margin-top: 10px; font-size: 0.9em; padding: 8px 20px; background: linear-gradient(135deg, #FFA500 0%, #FF8C00 100%);">
                 💡 Hint
             </button>
@@ -235,32 +246,24 @@ function showUnscrambleHint(index, hint) {
 function checkUnscramble(index, answer) {
     const input = document.getElementById(`unscramble-${index}`);
     const value = input.value.toLowerCase().trim();
-    
-    // Check if this input was already marked correct (to avoid duplicate counting)
+
     if (input.classList.contains('correct')) return;
-    
+
     if (value === answer) {
         input.classList.remove('wrong');
         input.classList.add('correct');
         input.disabled = true;
-        
-        // Only count if not previously marked wrong
-        if (!input.dataset.countedWrong) {
-            addScore(10);
-        }
-        
+        if (!input.dataset.countedWrong) addScore(10);
         showFeedback('✅', 'Perfect!', true);
-        
-        // Check if all completed
+
         setTimeout(() => {
-            const allInputs = document.querySelectorAll('.unscramble-input');
+            const allInputs     = document.querySelectorAll('.unscramble-input');
             const correctInputs = document.querySelectorAll('.unscramble-input.correct');
             if (allInputs.length === correctInputs.length) {
                 showFeedback('🏆', 'All Words Unscrambled!', true);
             }
         }, 300);
     } else if (value.length >= answer.length && !input.dataset.countedWrong) {
-        // Only count as wrong once when they've typed enough letters and it's wrong
         input.classList.add('wrong');
         input.classList.remove('correct');
         input.dataset.countedWrong = 'true';
@@ -269,8 +272,7 @@ function checkUnscramble(index, answer) {
         input.classList.add('wrong');
         input.classList.remove('correct');
     } else {
-        input.classList.remove('wrong');
-        input.classList.remove('correct');
+        input.classList.remove('wrong', 'correct');
     }
 }
 
@@ -280,20 +282,21 @@ function checkUnscramble(index, answer) {
 
 function initCompleteGame() {
     currentSentence = 0;
-    selectedWord = null;
-    currentBlanks = {};
+    selectedWord    = null;
+    currentBlanks   = {};
     showSentence();
 }
 
 function showSentence() {
-    const container = document.getElementById('complete-container');
-    
-    if (currentSentence >= completeSentences.length) {
+    const container  = document.getElementById('complete-container');
+    const sentences  = td().completeSentences;
+
+    if (currentSentence >= sentences.length) {
         container.innerHTML = `
             <div style="text-align: center; padding: 50px;">
                 <div style="font-size: 5em;">🏆</div>
                 <h2>All Sentences Complete!</h2>
-                <p style="font-size: 1.3em; margin: 20px 0;">You completed all ${completeSentences.length} sentences!</p>
+                <p style="font-size: 1.3em; margin: 20px 0;">You completed all ${sentences.length} sentences!</p>
                 <p style="font-size: 1.5em; font-weight: bold; color: #667eea; margin-bottom: 25px;">🌟 Score: ${score} points</p>
                 <button class="btn" onclick="initCompleteGame()">🔄 Play Again</button>
             </div>
@@ -301,17 +304,13 @@ function showSentence() {
         return;
     }
 
-    const pct = Math.round((currentSentence / completeSentences.length) * 100);
-    const exercise = completeSentences[currentSentence];
-    selectedWord = null;
-    currentBlanks = {};
+    const pct      = Math.round((currentSentence / sentences.length) * 100);
+    const exercise = sentences[currentSentence];
+    selectedWord   = null;
+    currentBlanks  = {};
 
-    // Create sentence with blanks
-    let sentenceHTML = exercise.sentence;
     let blankCounter = 0;
-    
-    // Replace blanks with interactive elements
-    sentenceHTML = sentenceHTML.replace(/_+/g, () => {
+    let sentenceHTML = exercise.sentence.replace(/_+/g, () => {
         blankCounter++;
         return `<span class="complete-blank" id="blank-${blankCounter}" onclick="selectBlank(${blankCounter})">[____]</span>`;
     });
@@ -320,13 +319,13 @@ function showSentence() {
         <div class="progress-bar-container">
             <div class="progress-bar-fill" style="width: ${pct}%"></div>
         </div>
-        <div class="progress-label">Sentence ${currentSentence + 1} / ${completeSentences.length}</div>
+        <div class="progress-label">Sentence ${currentSentence + 1} / ${sentences.length}</div>
         <div class="complete-exercise">
             <div style="text-align: center; margin-bottom: 20px;">
                 <span style="font-size: 3em;">${exercise.emoji}</span>
             </div>
             <div class="complete-sentence">${sentenceHTML}</div>
-            
+
             <div style="text-align: center; margin: 15px 0;">
                 <button class="btn" onclick="showCompletionHint()" style="background: linear-gradient(135deg, #FFA500 0%, #FF8C00 100%); font-size: 1em; padding: 10px 25px;">
                     💡 Need a hint?
@@ -337,7 +336,7 @@ function showSentence() {
             </div>
 
             <div class="word-bank" id="word-bank">
-                ${exercise.options.map((word, idx) => 
+                ${exercise.options.map((word, idx) =>
                     `<div class="word-option" id="word-${idx}" onclick="selectWord('${word}', ${idx})">${word.toUpperCase()}</div>`
                 ).join('')}
             </div>
@@ -354,10 +353,7 @@ function showCompletionHint() {
 }
 
 function selectWord(word, index) {
-    // Deselect previous
     document.querySelectorAll('.word-option').forEach(opt => opt.classList.remove('selected'));
-    
-    // Select new word
     selectedWord = word;
     document.getElementById(`word-${index}`).classList.add('selected');
 }
@@ -367,52 +363,33 @@ function selectBlank(blankNum) {
         showFeedback('👆', 'Pick a word first!', false);
         return;
     }
-
-    // Fill the blank
     const blank = document.getElementById(`blank-${blankNum}`);
     blank.textContent = selectedWord;
     blank.classList.add('filled');
     currentBlanks[blankNum] = selectedWord;
 
-    // Mark word as used
-    const wordOptions = document.querySelectorAll('.word-option.selected');
-    wordOptions.forEach(opt => {
+    document.querySelectorAll('.word-option.selected').forEach(opt => {
         opt.classList.remove('selected');
         opt.classList.add('used');
     });
-
     selectedWord = null;
 
-    // Enable check button if all blanks filled
-    const totalBlanks = document.querySelectorAll('.complete-blank').length;
+    const totalBlanks  = document.querySelectorAll('.complete-blank').length;
     const filledBlanks = Object.keys(currentBlanks).length;
-    
     if (filledBlanks === totalBlanks) {
         document.getElementById('check-btn').disabled = false;
     }
 }
 
 function checkCompleteSentence() {
-    const exercise = completeSentences[currentSentence];
-    const blanks = document.querySelectorAll('.complete-blank');
+    const exercise = td().completeSentences[currentSentence];
+    const blanks   = document.querySelectorAll('.complete-blank');
     let allCorrect = true;
 
     blanks.forEach((blank, index) => {
-        const blankNum = index + 1;
-        const userAnswer = currentBlanks[blankNum];
-        
-        // Determine correct answer for this blank
-        let correctAnswer;
-        if (exercise.doubleBlank) {
-            // For double blank sentences with different answers
-            correctAnswer = index === 0 ? exercise.blank : exercise.blank2;
-        } else if (exercise.sameWord) {
-            // For sentences where both blanks are the same word
-            correctAnswer = exercise.blank;
-        } else {
-            // Single blank
-            correctAnswer = exercise.blank;
-        }
+        const blankNum    = index + 1;
+        const userAnswer  = currentBlanks[blankNum];
+        const correctAnswer = exercise.blank;
 
         if (userAnswer && userAnswer.toLowerCase() === correctAnswer.toLowerCase()) {
             blank.classList.add('correct');
@@ -427,27 +404,20 @@ function checkCompleteSentence() {
     if (allCorrect) {
         addScore(20);
         showFeedback('🌟', 'Perfect Sentence!', true);
-        setTimeout(() => {
-            currentSentence++;
-            showSentence();
-        }, 2000);
+        setTimeout(() => { currentSentence++; showSentence(); }, 2000);
     } else {
         addWrongAnswer();
         showFeedback('😊', 'Try again! Check the red words.', false);
-        
-        // Reset after wrong answer
         setTimeout(() => {
             blanks.forEach(blank => {
                 blank.classList.remove('wrong', 'correct', 'filled');
                 blank.textContent = '[____]';
             });
-            
             document.querySelectorAll('.word-option').forEach(opt => {
                 opt.classList.remove('used', 'selected');
             });
-            
             currentBlanks = {};
-            selectedWord = null;
+            selectedWord  = null;
             document.getElementById('check-btn').disabled = true;
         }, 2000);
     }
@@ -460,14 +430,14 @@ function checkCompleteSentence() {
 function showGame(game) {
     document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
     document.querySelectorAll('.game-section').forEach(section => section.classList.remove('active'));
-    
+
     event.target.classList.add('active');
     document.getElementById(`${game}-game`).classList.add('active');
-    
-    if (game === 'match') initMatchGame();
-    if (game === 'quiz') initQuizGame();
+
+    if (game === 'match')      initMatchGame();
+    if (game === 'quiz')       initQuizGame();
     if (game === 'unscramble') initUnscrambleGame();
-    if (game === 'complete') initCompleteGame();
+    if (game === 'complete')   initCompleteGame();
 }
 
 function addScore(points) {
@@ -487,19 +457,18 @@ function addWrongAnswer() {
 }
 
 function updateStats() {
-    document.getElementById('score').textContent = score;
+    document.getElementById('score').textContent         = score;
     document.getElementById('correct-count').textContent = correctAnswers;
-    document.getElementById('wrong-count').textContent = wrongAnswers;
-    
-    const total = correctAnswers + wrongAnswers;
+    document.getElementById('wrong-count').textContent   = wrongAnswers;
+    const total    = correctAnswers + wrongAnswers;
     const accuracy = total > 0 ? Math.round((correctAnswers / total) * 100) : 0;
     document.getElementById('accuracy').textContent = accuracy + '%';
 }
 
 function playSound(success) {
     try {
-        const ctx = new (window.AudioContext || window.webkitAudioContext)();
-        const osc = ctx.createOscillator();
+        const ctx  = new (window.AudioContext || window.webkitAudioContext)();
+        const osc  = ctx.createOscillator();
         const gain = ctx.createGain();
         osc.connect(gain);
         gain.connect(ctx.destination);
@@ -515,15 +484,12 @@ function showFeedback(emoji, text, success) {
     playSound(success);
     const feedback = document.getElementById('feedback');
     document.getElementById('feedback-emoji').textContent = emoji;
-    document.getElementById('feedback-text').textContent = text;
-    feedback.style.background = success ?
-        'linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%)' :
-        'linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)';
+    document.getElementById('feedback-text').textContent  = text;
+    feedback.style.background = success
+        ? 'linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%)'
+        : 'linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)';
     feedback.classList.add('show');
-
-    setTimeout(() => {
-        feedback.classList.remove('show');
-    }, 1500);
+    setTimeout(() => feedback.classList.remove('show'), 1500);
 }
 
 // Initialize on load

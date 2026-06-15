@@ -41,6 +41,16 @@
             </div>
         </div>
 
+        <div class="topic-selector">
+            <p class="topic-label">📖 Choose your topic:</p>
+            <div class="topic-buttons">
+                <button class="topic-btn active"  onclick="selectTopic('body', this)">🧠 Body &amp; Face</button>
+                <button class="topic-btn"         onclick="selectTopic('town', this)">🏙️ The Town</button>
+                <button class="topic-btn"         onclick="selectTopic('house', this)">🏠 The House</button>
+                <button class="topic-btn"         onclick="selectTopic('animals', this)">🐾 Animals</button>
+            </div>
+        </div>
+
         <div class="tabs">
             <button class="tab active" onclick="showGame('match')">🎯 Match</button>
             <button class="tab" onclick="showGame('quiz')">❓ Quiz</button>
