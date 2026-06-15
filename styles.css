@@ -114,6 +114,46 @@ body {
     padding: 18px 10px !important;
 }
 
+/* Portuguese translation labels */
+.card-pt {
+    display: block;
+    font-size: 0.65em;
+    color: #764ba2;
+    font-weight: normal;
+    margin-top: 4px;
+    font-style: italic;
+}
+
+.unscramble-pt {
+    font-size: 1em;
+    color: #764ba2;
+    font-weight: bold;
+    font-style: italic;
+    margin-bottom: 8px;
+    background: rgba(102,126,234,0.12);
+    border-radius: 8px;
+    padding: 4px 10px;
+    display: inline-block;
+}
+
+.quiz-pt {
+    font-size: 0.65em;
+    font-weight: normal;
+    font-style: italic;
+    opacity: 0.9;
+    display: block;
+    margin-top: 2px;
+}
+
+.word-pt {
+    font-size: 0.7em;
+    font-weight: normal;
+    font-style: italic;
+    opacity: 0.85;
+    display: block;
+    margin-top: 2px;
+}
+
 /* Tabs */
 .tabs {
     display: flex;

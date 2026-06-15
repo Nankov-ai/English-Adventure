@@ -6,6 +6,21 @@ const gameData = {
     // ─────────────────────────────────────────
     body: {
         name: '🧠 Body & Face',
+        translations: {
+            'nose':'nariz', 'mouth':'boca', 'tooth':'dente', 'tongue':'língua',
+            'hair':'cabelo', 'eyes':'olhos', 'ears':'orelhas', 'face':'rosto',
+            'head':'cabeça', 'neck':'pescoço', 'shoulders':'ombros', 'arms':'braços',
+            'hands':'mãos', 'fingers':'dedos', 'legs':'pernas', 'feet':'pés',
+            'knee':'joelho', 'elbow':'cotovelo',
+            'eye':'olho', 'ear':'orelha', 'lip':'lábio', 'cheek':'bochecha',
+            'back':'costas', 'arm':'braço', 'hand':'mão', 'thumb':'polegar',
+            'wrist':'pulso', 'leg':'perna', 'foot':'pé', 'toe':'dedo do pé',
+            'ankle':'tornozelo', 'teeth':'dentes', 'lips':'lábios',
+            'toes':'dedos dos pés', 'knees':'joelhos', 'elbows':'cotovelos',
+            'nails':'unhas', 'finger':'dedo',
+            'hands':'mãos', 'head':'cabeça', 'feet':'pés', 'arms':'braços',
+            'legs':'pernas', 'ears':'orelhas', 'eyes':'olhos'
+        },
         matchWords: {
             'nose': '👃', 'mouth': '👄', 'tooth': '🦷', 'tongue': '👅',
             'hair': '💇', 'eyes': '👀', 'ears': '👂', 'face': '😊',
@@ -74,6 +89,17 @@ const gameData = {
     // ─────────────────────────────────────────
     town: {
         name: '🏙️ The Town',
+        translations: {
+            'hospital':'hospital', 'police station':'esquadra de polícia',
+            'church':'igreja', 'park':'parque',
+            'shopping centre':'centro comercial', 'school':'escola',
+            'cafe':'café', 'train station':'estação de comboio',
+            'post office':'correios', 'town hall':'câmara municipal',
+            'supermarket':'supermercado', 'fire station':'quartel dos bombeiros',
+            'next':'ao lado', 'behind':'atrás', 'opposite':'em frente',
+            'between':'entre', 'town':'cidade/vila',
+            'next to':'ao lado de', 'bus stop':'paragem de autocarro'
+        },
         matchWords: {
             'hospital': '🏥',
             'police station': '🚔',
@@ -136,6 +162,17 @@ const gameData = {
     // ─────────────────────────────────────────
     house: {
         name: '🏠 The House',
+        translations: {
+            'bedroom':'quarto', 'kitchen':'cozinha', 'dining room':'sala de jantar',
+            'hall':'entrada', 'bathroom':'casa de banho', 'living room':'sala de estar',
+            'garage':'garagem', 'garden':'jardim',
+            'laptop':'computador portátil', 'mobile phone':'telemóvel',
+            'guitar':'guitarra', 'glasses':'óculos', 'watch':'relógio',
+            'bracelet':'pulseira', 'bike':'bicicleta', 'skateboard':'skate',
+            'trading cards':'cromos', 'videogame':'videojogo',
+            'in':'dentro de', 'on':'em cima de', 'under':'debaixo de',
+            'behind':'atrás de', 'in front of':'à frente de'
+        },
         matchWords: {
             'bedroom': '🛏️',
             'kitchen': '🍳',
@@ -206,6 +243,15 @@ const gameData = {
     // ─────────────────────────────────────────
     animals: {
         name: '🐾 Animals',
+        translations: {
+            'duck':'pato', 'chicken':'galinha', 'cow':'vaca', 'pig':'porco',
+            'horse':'cavalo', 'sheep':'ovelha', 'goat':'cabra', 'donkey':'burro',
+            'turkey':'peru', 'giraffe':'girafa', 'elephant':'elefante', 'lion':'leão',
+            'eagle':'águia', 'hippo':'hipopótamo', 'penguin':'pinguim', 'monkey':'macaco',
+            'crocodile':'crocodilo', 'dolphin':'golfinho', 'koala':'coala',
+            'bear':'urso', 'snake':'cobra', 'lizard':'lagarto', 'tiger':'tigre',
+            'leopard':'leopardo'
+        },
         matchWords: {
             'duck': '🦆',
             'chicken': '🐔',

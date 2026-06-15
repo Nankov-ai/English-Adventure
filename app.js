@@ -17,6 +17,13 @@ let currentBlanks = {};
 // Helper: get active topic data
 function td() { return gameData[currentTopic]; }
 
+// Helper: get Portuguese translation (case-insensitive)
+function pt(word) {
+    if (!word) return '';
+    const trans = td().translations || {};
+    return trans[word] || trans[word.toLowerCase()] || '';
+}
+
 // ===========================================
 // TOPIC SELECTOR
 // ===========================================
@@ -66,7 +73,8 @@ function initMatchGame() {
     shuffledWords.forEach(word => {
         const card = document.createElement('div');
         card.className = 'match-card match-word-card';
-        card.innerHTML = word.toUpperCase();
+        const ptWord = pt(word);
+        card.innerHTML = `${word.toUpperCase()}${ptWord ? `<br><span class="card-pt">${ptWord}</span>` : ''}`;
         card.dataset.type = 'word';
         card.dataset.word = word;
         card.onclick = () => selectCard(card);
@@ -179,7 +187,8 @@ function showQuestion() {
     q.options.forEach((option, index) => {
         const btn = document.createElement('div');
         btn.className = 'quiz-option';
-        btn.innerHTML = option;
+        const ptOpt = pt(option);
+        btn.innerHTML = `${option}${ptOpt ? `<br><span class="quiz-pt">${ptOpt}</span>` : ''}`;
         btn.onclick = () => checkAnswer(index, q.correct);
         optionsContainer.appendChild(btn);
     });
@@ -220,8 +229,10 @@ function initUnscrambleGame() {
     words.forEach((item, index) => {
         const div = document.createElement('div');
         div.className = 'unscramble-item';
+        const ptItem = pt(item.answer);
         div.innerHTML = `
-            <div style="font-size: 3em; margin-bottom: 10px;">${item.emoji}</div>
+            <div style="font-size: 3em; margin-bottom: 6px;">${item.emoji}</div>
+            ${ptItem ? `<div class="unscramble-pt">${ptItem}</div>` : ''}
             <div class="scrambled-word">${item.scrambled.toUpperCase()}</div>
             <input type="text" class="unscramble-input" id="unscramble-${index}"
                    placeholder="Type the answer..."
@@ -336,9 +347,10 @@ function showSentence() {
             </div>
 
             <div class="word-bank" id="word-bank">
-                ${exercise.options.map((word, idx) =>
-                    `<div class="word-option" id="word-${idx}" onclick="selectWord('${word}', ${idx})">${word.toUpperCase()}</div>`
-                ).join('')}
+                ${exercise.options.map((word, idx) => {
+                    const ptW = pt(word);
+                    return `<div class="word-option" id="word-${idx}" onclick="selectWord('${word}', ${idx})">${word.toUpperCase()}${ptW ? `<br><span class="word-pt">${ptW}</span>` : ''}</div>`;
+                }).join('')}
             </div>
 
             <button class="check-answer-btn" onclick="checkCompleteSentence()" id="check-btn" disabled>
